@@ -13,14 +13,12 @@ const RegexVisualizer = ({text}: {text: string}) => {
                 setRegex(new RegExp(ref.current.value, "dgs"))
             } catch (e: any) {
                 console.error(e)
-
             }
         }
     }
     return (
         <div>
-            <h1>Regex Visualizer</h1>
-            <input type="text" ref={ref} onChange={onChange} defaultValue={defaultRegex} className="bg-gray-700 text-white border border-gray-600 rounded p-2"/>
+            <input type="text" ref={ref} onChange={onChange} defaultValue={defaultRegex} className="bg-gray-800 border border-gray-700 rounded p-2 font-mono w-full"/>
             <br />
             <RegexHighlighter regex={regex} text={text}/>
         </div>
