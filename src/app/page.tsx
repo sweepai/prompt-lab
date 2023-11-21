@@ -70,7 +70,7 @@ const Main = () => {
           </button>
         </div>
         <div className="w-2/3 p-4">
-          <RegexVisualizer text="Here is the text to be highlighted by like Regex 101" />
+          <RegexVisualizer text="Here is the text to be highlighted like Regex 101" />
         </div>
       </div>
     </main>

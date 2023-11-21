@@ -18,8 +18,7 @@ const RegexVisualizer = ({text}: {text: string}) => {
     }
     return (
         <div>
-            <input type="text" ref={ref} onChange={onChange} defaultValue={defaultRegex} className="bg-gray-800 border border-gray-700 rounded p-2 font-mono w-full"/>
-            <br />
+            <input type="text" ref={ref} onChange={onChange} defaultValue={defaultRegex} className="bg-gray-800 border border-gray-700 rounded p-2 font-mono w-full mb-4"/>
             <RegexHighlighter regex={regex} text={text}/>
         </div>
     )

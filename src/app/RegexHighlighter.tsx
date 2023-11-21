@@ -62,7 +62,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
   const highlightedText = getHighlightedText()
 
   return (
-    <div className="font-mono p-2">
+    <div className="font-mono p-2 bg-gray-900 border border-gray-700 rounded p-2 font-mono w-full">
       {highlightedText}
     </div>
   );
