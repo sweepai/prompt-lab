@@ -194,12 +194,6 @@ const Main = () => {
           </div>
           <div className="w-2/3 p-4">
             <RegexVisualizer text={displayContent} runLLM={runLLM} />
-            {/* <button
-              className="font-bold text-xl mb-2 bg-blue-700 hover:bg-blue-800 text-white p-2 rounded w-full text-left mt-4"
-              onClick={runLLM}
-            >
-              Run
-            </button> */}
           </div>
         </div>
       </main>

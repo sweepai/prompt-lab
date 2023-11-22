@@ -17,13 +17,38 @@ const replaceNewlines = (text: string) => {
 const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
   const getHighlightedText = () => {
     if (regex.source === "") {
-      return text;
+        return text;
     }
 
     const result: JSX.Element[] = [];
     let lastIndex = 0;
 
-    text.replace(regex, (match, ...args) => {
+    var regexToUse = new RegExp(regex.source, "dgs");
+
+    const copiedRegex = new RegExp(regex.source, "dgs");
+    var search = text.search(copiedRegex);
+
+    if (search === -1) {
+        for (let i = regex.source.length; i > 2; i--) {
+            try {
+                regexToUse = new RegExp(regex.source.substring(0, i), "dgs");
+            } catch (e) {
+                continue;
+            }
+            search = text.search(regexToUse);
+            if (search !== -1) {
+                console.log("found regex", regexToUse, "at", search)
+                break;
+            }
+        }
+        console.log("regexToUse", regexToUse)
+        console.log(search)
+        if (search === -1) {
+            return text
+        }
+    }
+
+    text.replace(regexToUse, (match, ...args) => {
       const currentResults: JSX.Element[] = [];
       const matchStart = args[args.length - 2];
       const matchEnd = matchStart + match.length;
@@ -36,7 +61,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
 
       var firstEnd = matchEnd + 1;
 
-      const copied_regex = new RegExp(regex.source, "dgs")
+      const copied_regex = new RegExp(regexToUse.source, "dgs")
       const exec_match = copied_regex.exec(match)
 
       if (exec_match == null || exec_match!.indices === undefined) {
