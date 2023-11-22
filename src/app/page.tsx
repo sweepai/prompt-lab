@@ -152,7 +152,7 @@ const Main = () => {
 
   return (
       <main className="flex min-h-screen flex-col items-center justify-between p-12 font-mono">
-        <h1 className="text-2xl mb-3">Prompt Playground</h1>
+        <h1 className="text-2xl mb-3">Prompt + Regex Lab</h1>
         <div className="h-screen w-full flex">
           <div className="w-1/3 p-4">
             {messages.map((message: MessageType) => (
