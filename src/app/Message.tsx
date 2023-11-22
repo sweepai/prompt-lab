@@ -27,9 +27,9 @@ const getNextRole = (role: RoleType) => {
 };
 
 const colorMapping: { [key in RoleType]: string } = {
-  "system": "bg-gray-800",
-  "user": "bg-blue-900",
-  "assistant": "bg-green-900",
+  "system": "bg-gray-800 hover:bg-gray-900",
+  "user": "bg-blue-800 hover:bg-blue-900",
+  "assistant": "bg-green-800 hover:bg-green-900",
 }
 
 const AutoScaledTextarea = ({ ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => {

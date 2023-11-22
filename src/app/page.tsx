@@ -55,40 +55,53 @@ The unit test using the unittest module.
 \`\`\`
 </unit_test>`
 
-const defaultDisplayContent = `Here is one possible unit test for the code. This tests whether it correctly identifies a horizontal win, a vertical win, a diagonal win from the top left to the bottom right, a diagonal win from the top right to the bottom left, and a non-win situation. 
+const defaultDisplayContent = `<test_cases>
+1. Test when there is a winning condition in a row.
+2. Test when there is a winning condition in a column.
+3. Test when there is a winning condition in a diagonal.
+4. Test when there is no winning condition.
+5. Test when the player is "O" instead of "X".
+6. Test with an empty or invalid board.
+
+</test_cases>
 
 <unit_test>
-\`\`\`
+
+\`\`\`python
 import unittest
 
-class TestCheckTicTacToeWin(unittest.TestCase):
-
-    def test_horizontal_win(self):
-        board = [["X", "X", "X"], ["O", "O", "_"], ["O", "_", "_"]]
+class TicTacToeTests(unittest.TestCase):
+    
+    def test_win_in_row(self):
+        board = [["X", "X", "X"], [" ", " ", " "], [" ", " ", " "]]
         self.assertTrue(check_tictactoe_win(board, "X"))
 
-    def test_vertical_win(self):
-        board = [["X", "O", "O"], ["X", "_", "_"], ["X", "O", "_"]]
+    def test_win_in_column(self):
+        board = [["X", " ", " "], ["X", " ", " "], ["X", " ", " "]]
         self.assertTrue(check_tictactoe_win(board, "X"))
 
-    def test_diagonal_win_1(self):
-        board = [["X", "O", "O"], ["_", "X", "_"], ["O", "O", "X"]]
-        self.assertTrue(check_tictactoe_win(board, "X"))
-
-    def test_diagonal_win_2(self):
-        board = [["O", "O", "X"], ["_", "X", "_"], ["X", "O", "_"]]
+    def test_win_in_diagonal(self):
+        board = [["X", " ", " "], [" ", "X", " "], [" ", " ", "X"]]
         self.assertTrue(check_tictactoe_win(board, "X"))
 
     def test_no_win(self):
-        board = [["X", "O", "X"], ["_", "O", "_"], ["O", "X", "_"]]
+        board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
         self.assertFalse(check_tictactoe_win(board, "X"))
 
-if __name__ == '__main__':
-    unittest.main()
-\`\`\`
-</unit_test>
+    def test_win_with_O(self):
+        board = [[ "O", "O", "O"], [ " ", " ", " "], [" ", " ", " "]]
+        self.assertTrue(check_tictactoe_win(board, "O"))
+        
+    def test_invalid_board(self):
+        board = [[" ", " ", " "], [" ", " ", " "]]
+        with self.assertRaises(IndexError):
+            check_tictactoe_win(board, "X")
 
-These tests will check whether the function correctly identifies win conditions for the given player. Replace "X" with whatever character you are using for the player's game piece. Possible extensions include validating that the board and player inputs are correctly formatted, and testing edge cases such as an empty board.`
+    # add this line so when the file is run, it runs the tests
+    if __name__ == "__main__":
+        unittest.main()
+\`\`\`
+</unit_test>`
 
 const Main = () => {
   const [messages, setMessages] = useState<MessageType[]>(() => {
