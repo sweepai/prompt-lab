@@ -104,6 +104,11 @@ class TicTacToeTests(unittest.TestCase):
 </unit_test>`
 
 const Main = () => {
+  const [apiKey, setApiKey] = useState<string>(() => {
+    // Load API key from local storage or default to empty string
+    const savedApiKey = typeof window !== "undefined" ? localStorage.getItem('apiKey') : null;
+    return savedApiKey ? savedApiKey : "";
+  });
   const [messages, setMessages] = useState<MessageType[]>(() => {
     // Load messages from local storage or default to initial array
     const savedMessages = typeof window !== "undefined" ? localStorage.getItem('messages') : null;
@@ -113,17 +118,29 @@ const Main = () => {
     ];
   });
   const [displayContent, setDisplayContent] = useState<string>(defaultDisplayContent);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+
+  const runButtonDisabled = apiKey === "" || messages.length === 0 || isRunning;
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('apiKey', apiKey);
+    }
+  }, [apiKey]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('messages', JSON.stringify(messages));
     }
   }, [messages]);
+
   const runLLM = async () => {
+    setIsRunning(true);
     try {
       const response = await fetch("/api", {
         method: "POST", 
         body: JSON.stringify({
+          apiKey: apiKey,
           messages: messages.map((message: MessageType) => {
             return {
               content: message.content,
@@ -149,6 +166,7 @@ const Main = () => {
       alert(e)
       console.error(e);
     }
+    setIsRunning(false);
   }
 
   return (
@@ -193,7 +211,22 @@ const Main = () => {
             </button>
           </div>
           <div className="w-2/3 p-4">
-            <RegexVisualizer text={displayContent} runLLM={runLLM} />
+            <RegexVisualizer text={displayContent} runButton={
+                <button
+                    className={`font-bold text-xl text-white p-2 rounded w-full text-center w-32 ${!runButtonDisabled ? "bg-blue-700 hover:bg-blue-800" : "bg-gray-700"}`}
+                    onClick={runLLM}
+                    disabled={runButtonDisabled}
+                >
+                    Run
+                </button>
+            } />
+            <input 
+              type="password"
+              className="text-xs bg-gray-800 border border-gray-700 rounded p-2 font-mono w-full mt-4"
+              placeholder="Put your OpenAI API key here"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+            />
           </div>
         </div>
       </main>

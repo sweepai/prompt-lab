@@ -7,14 +7,11 @@ export async function GET(request: Request) {
   return new Response('Playground is up and running!')
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
- 
 export const runtime = 'edge'
  
 export async function POST(req: Request) {
-  const { messages, stream=true } = await req.json()
+  const { messages, apiKey, stream=true } = await req.json()
+  const openai = new OpenAI({apiKey})
   const response = await openai.chat.completions.create({
     model: 'gpt-4',
     stream: stream,
