@@ -5,7 +5,7 @@ type RegexHighlighterProps = {
 
 function randomHexColor(seed: number) {
   return [
-    "darkgreen", "darkred", "darkblue", "brown"
+    "darkgreen", "darkblue", "darkred", "brown"
   ][seed % 5]
 }
 
@@ -85,7 +85,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
   const highlightedText = getHighlightedText()
 
   return (
-    <pre className="font-mono p-2 bg-gray-900 border border-gray-700 rounded p-2 font-mono w-full whitespace-pre-wrap">
+    <pre className="text-xs p-2 bg-gray-900 border border-gray-700 rounded p-2 font-mono w-full whitespace-pre-wrap">
       {highlightedText}
     </pre>
   );

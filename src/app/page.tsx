@@ -55,8 +55,40 @@ The unit test using the unittest module.
 \`\`\`
 </unit_test>`
 
-const defaultDisplayContent = `
-`
+const defaultDisplayContent = `Here is one possible unit test for the code. This tests whether it correctly identifies a horizontal win, a vertical win, a diagonal win from the top left to the bottom right, a diagonal win from the top right to the bottom left, and a non-win situation. 
+
+<unit_test>
+\`\`\`
+import unittest
+
+class TestCheckTicTacToeWin(unittest.TestCase):
+
+    def test_horizontal_win(self):
+        board = [["X", "X", "X"], ["O", "O", "_"], ["O", "_", "_"]]
+        self.assertTrue(check_tictactoe_win(board, "X"))
+
+    def test_vertical_win(self):
+        board = [["X", "O", "O"], ["X", "_", "_"], ["X", "O", "_"]]
+        self.assertTrue(check_tictactoe_win(board, "X"))
+
+    def test_diagonal_win_1(self):
+        board = [["X", "O", "O"], ["_", "X", "_"], ["O", "O", "X"]]
+        self.assertTrue(check_tictactoe_win(board, "X"))
+
+    def test_diagonal_win_2(self):
+        board = [["O", "O", "X"], ["_", "X", "_"], ["X", "O", "_"]]
+        self.assertTrue(check_tictactoe_win(board, "X"))
+
+    def test_no_win(self):
+        board = [["X", "O", "X"], ["_", "O", "_"], ["O", "X", "_"]]
+        self.assertFalse(check_tictactoe_win(board, "X"))
+
+if __name__ == '__main__':
+    unittest.main()
+\`\`\`
+</unit_test>
+
+These tests will check whether the function correctly identifies win conditions for the given player. Replace "X" with whatever character you are using for the player's game piece. Possible extensions include validating that the board and player inputs are correctly formatted, and testing edge cases such as an empty board.`
 
 const Main = () => {
   const [messages, setMessages] = useState<MessageType[]>(() => {
@@ -68,7 +100,7 @@ const Main = () => {
     ];
   });
   console.log(messages)
-  const [displayContent, setDisplayContent] = useState<string>("Here is the text to be highlighted like Regex 101");
+  const [displayContent, setDisplayContent] = useState<string>(defaultDisplayContent);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -113,7 +145,7 @@ const Main = () => {
             ))}
             <br/>
             <button
-              className="font-bold text-xl mb-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
+              className="font-bold text-lg mb-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
               onClick={() => {setMessages((messages: MessageType[]) => [...messages, { content: "", role: "user", id: getRandomInt() }])}}
             >
               Add message

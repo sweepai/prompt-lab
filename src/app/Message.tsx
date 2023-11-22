@@ -56,24 +56,26 @@ const Message = ({
 }: any) => {
   return (
     <div className="rounded overflow-hidden shadow-lg font-mono mb-3">
-      <button
-        className="font-bold text-xl mb-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
-        onClick={() => onChangeRole()}
-      >
-        {renderRole(role)}
-      </button>
+      <div className="flex justify-between">
+        <button
+          className="font-bold text-lg mb-2 mr-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
+          onClick={() => onChangeRole()}
+        >
+          {renderRole(role)}
+        </button>
+        <button
+          className="font-bold text-lg mb-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
+          onClick={() => onDelete()}
+        >
+          Delete
+        </button>
+      </div>
       <textarea
-        className="w-full bg-gray-800 border-gray-700 p-2 border rounded h-auto resize-none h-48"
+        className="w-full bg-gray-800 border-gray-700 p-2 border rounded h-auto h-max-48 text-xs"
         placeholder="Message goes here..."
         onChange={(e) => onChange(e.target.value)}
         value={content}
       />
-      <button
-        className="font-bold text-xl mb-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
-        onClick={() => onDelete()}
-      >
-        Delete
-      </button>
     </div>
   );
 };
