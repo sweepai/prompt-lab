@@ -71,7 +71,7 @@ const Message = ({
         </button>
       </div>
       <textarea
-        className="w-full bg-gray-800 border-gray-700 p-2 border rounded h-auto h-max-48 text-xs"
+        className="w-full bg-gray-800 border-gray-700 p-2 border rounded h-auto h-max-60 text-xs"
         placeholder="Message goes here..."
         onChange={(e) => onChange(e.target.value)}
         value={content}
