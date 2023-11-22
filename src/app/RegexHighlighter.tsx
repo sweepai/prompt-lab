@@ -11,11 +11,16 @@ function randomHexColor(seed: number) {
 
 const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
   const getHighlightedText = () => {
+    if (regex.source === "") {
+      return text;
+    }
+
     const result: JSX.Element[] = [];
     let lastIndex = 0;
 
     text.replace(regex, (match, ...args) => {
-        console.log(match)
+      const currentResults: JSX.Element[] = [];
+      console.log(match)
       const matchStart = args[args.length - 2];
       const matchEnd = matchStart + match.length;
 
@@ -26,11 +31,13 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
       const colorChanges: [number, boolean][] = [];
 
       var firstEnd = matchEnd + 1;
-      const exec_match = regex.exec(match)
-    //   console.log("regex.exec(match)", exec_match)
 
-      if (exec_match == null || exec_match.indices === undefined) {
-        // console.log(exec_match)
+      const copied_regex = new RegExp(regex.source, "dgs")
+      const exec_match = copied_regex.exec(match)
+
+      if (exec_match == null || exec_match!.indices === undefined) {
+        console.log("exec_match is null")
+        lastIndex = matchEnd;
         return match;
       }
 
@@ -49,7 +56,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
       for (let i = 0; i < colorChanges.length - 1; i++) {
         const [index, isStart] = colorChanges[i];
         depth += isStart ? 1 : -1;
-        result.push(
+        currentResults.push(
           <span className={`match-${currentIndex}`} style={{ backgroundColor: randomHexColor(depth - 1) }}>
             {text.substring(index, colorChanges[i + 1][0])}
           </span>
@@ -57,6 +64,10 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
       }
 
       lastIndex = matchEnd;
+      console.log("currentResults", currentResults)
+      currentResults.forEach((item) => {
+        result.push(item);
+      });
       return match;
     });
 
