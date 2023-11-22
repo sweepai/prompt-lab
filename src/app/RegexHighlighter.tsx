@@ -15,6 +15,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
     let lastIndex = 0;
 
     text.replace(regex, (match, ...args) => {
+        console.log(match)
       const matchStart = args[args.length - 2];
       const matchEnd = matchStart + match.length;
 
