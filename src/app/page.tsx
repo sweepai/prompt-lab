@@ -207,7 +207,6 @@ const Main = () => {
                 Run
               </button>
             } /> 
-                        {/* runLLM={runLLM} runButtonDisabled={runButtonDisabled} /> */}
             <input 
               type="password"
               className="text-xs bg-gray-800 border border-gray-700 rounded p-2 font-mono w-full mt-4"
