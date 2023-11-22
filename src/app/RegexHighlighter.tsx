@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from 'react-toastify';
+
 type RegexHighlighterProps = {
   text: string;
   regex: RegExp;
@@ -15,6 +17,7 @@ const replaceNewlines = (text: string) => {
 }
 
 const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
+    toast("Hello")
   const getHighlightedText = () => {
     if (regex.source === "") {
         return text;
