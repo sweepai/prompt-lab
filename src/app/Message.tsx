@@ -26,10 +26,15 @@ const getNextRole = (role: RoleType) => {
   }
 };
 
+const colorMapping: { [key in RoleType]: string } = {
+  "system": "bg-gray-800",
+  "user": "bg-blue-900",
+  "assistant": "bg-green-900",
+}
+
 const AutoScaledTextarea = ({ ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => {
   const ref = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
-    console.log("ref.current", ref.current)
     if (ref.current) {
       ref.current.style.height = 'auto';
       ref.current.style.height = ref.current.scrollHeight + 'px';
@@ -66,13 +71,13 @@ const Message = ({
     <div className="rounded overflow-hidden shadow-lg font-mono mb-3">
       <div className="flex justify-between">
         <button
-          className="font-bold text-lg mb-2 mr-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
+          className={`font-bold text-lg mb-2 mr-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left ${colorMapping[role]}`}
           onClick={() => onChangeRole()}
         >
           {renderRole(role)}
         </button>
         <button
-          className="font-bold text-lg mb-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-full text-left"
+          className="font-bold text-lg mb-2 bg-gray-700 hover:bg-gray-800 text-white p-2 rounded w-32 text-center"
           onClick={() => onDelete()}
         >
           Delete

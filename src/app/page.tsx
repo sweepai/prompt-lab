@@ -99,7 +99,6 @@ const Main = () => {
       { content: default_user_message, role: "user", id: 1 },
     ];
   });
-  console.log(messages)
   const [displayContent, setDisplayContent] = useState<string>(defaultDisplayContent);
 
   useEffect(() => {
@@ -107,6 +106,37 @@ const Main = () => {
       localStorage.setItem('messages', JSON.stringify(messages));
     }
   }, [messages]);
+  const runLLM = async () => {
+    try {
+      const response = await fetch("/api", {
+        method: "POST", 
+        body: JSON.stringify({
+          messages: messages.map((message: MessageType) => {
+            return {
+              content: message.content,
+              role: message.role
+            }
+          })
+        })
+      })!
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
+      const reader = response.body!.getReader();
+      var displayContent = "";
+      setDisplayContent(displayContent);
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = new TextDecoder().decode(value);
+        var displayContent = displayContent + chunk;
+        setDisplayContent(displayContent);
+      }
+    } catch (e) {
+      alert(e)
+      console.error(e);
+    }
+  }
 
   return (
     <RecoilRoot>
@@ -126,11 +156,9 @@ const Main = () => {
                     }
                     return item;
                   }));
-                  console.log(messages)
                 }}
                 onChangeRole={() => {
                   setMessages((messages: MessageType[]) => messages.map((item: MessageType) => {
-                    console.log(item.id, message.id)
                     if (item.id === message.id) {
                       return { ...item, role: getNextRole(item.role) };
                     }
@@ -152,62 +180,13 @@ const Main = () => {
             </button>
           </div>
           <div className="w-2/3 p-4">
-            {displayContent ? 
-              <RegexVisualizer text={displayContent} /> : "..."
-            }
-            <button
+            <RegexVisualizer text={displayContent} runLLM={runLLM} />
+            {/* <button
               className="font-bold text-xl mb-2 bg-blue-700 hover:bg-blue-800 text-white p-2 rounded w-full text-left mt-4"
-              onClick={async () => {
-                try {
-                  console.log(messages)
-                  const response = await fetch("/api", {
-                    method: "POST", 
-                    body: JSON.stringify({
-                      messages: messages.map((message: MessageType) => {
-                        return {
-                          content: message.content,
-                          role: message.role
-                        }
-                      })
-                    })
-                  })!
-                  if (!response.ok) {
-                    throw new Error(response.statusText)
-                  }
-                  const data = await response.json();
-                  const message = data.choices[0].message.content;
-                  setDisplayContent(message);
-                } catch (e) {
-                  alert(e)
-                  console.error(e);
-                }
-                // try {
-                //   const data = await fetch("/api", {
-                //     method: "POST", 
-                //     body: JSON.stringify({
-                //       messages: messages.map((message: MessageType) => {
-                //         return {
-                //           content: message.content,
-                //           role: message.role
-                //         }
-                //       })
-                //     })
-                //   })
-                //   const stream = new ReadableStream({
-                //     start(controller) {}
-                //   });
-                //   for await (const chunk of stream.body!) {
-                //     // Do something with each 'chunk'
-                //     console.log(chunk)
-                //   }
-                // } catch (e) {
-                //   alert(e)
-                //   console.error(e);
-                // }
-              }}
+              onClick={runLLM}
             >
               Run
-            </button>
+            </button> */}
           </div>
         </div>
       </main>

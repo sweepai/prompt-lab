@@ -28,7 +28,7 @@ const openai = new OpenAI({
 export const runtime = 'edge'
  
 export async function POST(req: Request) {
-  const { messages, stream=false } = await req.json()
+  const { messages, stream=true } = await req.json()
   const response = await openai.chat.completions.create({
     model: 'gpt-4',
     stream: stream,
@@ -36,7 +36,6 @@ export async function POST(req: Request) {
   })
 
   if (response.error) {
-    console.log(response.error)
     return Response.text(response, { status: 500 })
   }
 

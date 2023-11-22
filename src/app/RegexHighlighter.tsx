@@ -68,7 +68,6 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
       }
 
       lastIndex = matchEnd;
-      console.log("currentResults", currentResults)
       currentResults.forEach((item) => {
         result.push(item);
       });
@@ -85,7 +84,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
   const highlightedText = getHighlightedText()
 
   return (
-    <pre className="text-xs p-2 bg-gray-900 border border-gray-700 rounded p-2 font-mono w-full whitespace-pre-wrap">
+    <pre className="text-xs p-2 bg-gray-900 border border-gray-700 rounded p-2 font-mono w-full whitespace-pre-wrap" contentEditable>
       {highlightedText}
     </pre>
   );
