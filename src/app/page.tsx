@@ -99,17 +99,17 @@ const Main = () => {
   const [displayContent, setDisplayContent] = useState<string>(defaultDisplayContent);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
-  // var runButtonDisabled = apiKey === "" || messages.length === 0 || isRunning;
-  const [runButtonDisabled, setRunButtonDisabled] = useState<boolean>(apiKey === "" || messages.length === 0 || isRunning);
+  const [runButtonDisabled, setRunButtonDisabled] = useState<boolean>(true);
 
   useEffect(() => {
-    // runButtonDisabled = apiKey === "" || messages.length === 0 || isRunning;
     setRunButtonDisabled(apiKey === "" || messages.length === 0 || isRunning);
   }), [apiKey, messages, isRunning];
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('apiKey', apiKey);
+      setRunButtonDisabled(apiKey === "" || messages.length === 0 || isRunning);
+      console.log("apiKey changed")
     }
   }, [apiKey]);
 
@@ -198,13 +198,25 @@ const Main = () => {
             </button>
           </div>
           <div className="w-2/3 p-4">
-            <RegexVisualizer text={displayContent} runLLM={runLLM} runButtonDisabled={runButtonDisabled} />
+            <RegexVisualizer text={displayContent} runButton={
+              <button
+                  className={`font-bold text-xl text-white p-2 rounded w-full text-center w-24 ${!runButtonDisabled ? "bg-blue-700 hover:bg-blue-800" : "bg-gray-700"}`}
+                  onClick={runLLM}
+                  disabled={runButtonDisabled}
+              >
+                Run
+              </button>
+            } /> 
+                        {/* runLLM={runLLM} runButtonDisabled={runButtonDisabled} /> */}
             <input 
               type="password"
               className="text-xs bg-gray-800 border border-gray-700 rounded p-2 font-mono w-full mt-4"
               placeholder="Put your OpenAI API key here"
               value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
+              onChange={(e) => {
+                setRunButtonDisabled(e.target.value === "" || messages.length === 0 || isRunning);
+                setApiKey(e.target.value)
+              }}
             />
           </div>
         </div>
