@@ -153,6 +153,7 @@ const Main = () => {
   return (
       <main className="flex min-h-screen flex-col items-center justify-between p-12 font-mono">
         <h1 className="text-2xl mb-3">Prompt + Regex Lab</h1>
+        <h2 className="text-sm mb-3">Check out the source code at <a className="text-blue-600" href="https://github.com/sweepai/prompt-playground">https://github.com/sweepai/prompt-playground</a></h2>
         <div className="h-screen w-full flex">
           <div className="w-1/3 p-4">
             {messages.map((message: MessageType) => (

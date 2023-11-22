@@ -37,12 +37,9 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
             }
             search = text.search(regexToUse);
             if (search !== -1) {
-                console.log("found regex", regexToUse, "at", search)
                 break;
             }
         }
-        console.log("regexToUse", regexToUse)
-        console.log(search)
         if (search === -1) {
             return text
         }
