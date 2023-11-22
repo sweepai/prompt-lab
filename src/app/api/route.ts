@@ -1,5 +1,6 @@
 import OpenAI from 'openai'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
+import { NextResponse } from 'node_modules/next/server'
 
 export const dynamic = 'force-dynamic' // defaults to force-static
 
@@ -18,14 +19,11 @@ export async function POST(req: Request) {
     messages,
   })
 
-  if (response.error) {
-    return Response.text(response, { status: 500 })
-  }
-
   if (stream) {
+    // @ts-ignore
     const stream = OpenAIStream(response)
     return new StreamingTextResponse(stream)
   } else {
-    return Response.json(response)
+    return NextResponse.json(response)
   }
 }

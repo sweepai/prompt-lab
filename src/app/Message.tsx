@@ -66,7 +66,14 @@ const Message = ({
   onChange,
   onChangeRole,
   onDelete,
-}: any) => {
+}: {
+  content: string;
+  role: RoleType;
+  id: number;
+  onChange: (newContent: string) => void;
+  onChangeRole: () => void;
+  onDelete: () => void;
+}) => {
   return (
     <div className="rounded overflow-hidden shadow-lg font-mono mb-3">
       <div className="flex justify-between">
