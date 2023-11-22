@@ -65,7 +65,7 @@ const Message = ({
       <textarea
         className="w-full bg-gray-800 border-gray-700 p-2 border rounded"
         placeholder="Message goes here..."
-        onChange={() => onChange()}
+        onChange={(e) => onChange(e.target.value)}
         value={content}
       />
       <button
