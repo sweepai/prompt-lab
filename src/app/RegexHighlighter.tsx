@@ -9,6 +9,11 @@ function randomHexColor(seed: number) {
   ][seed % 5]
 }
 
+const replaceNewlines = (text: string) => {
+    // return text.replace(/\n/g, " ")
+    return text
+}
+
 const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
   const getHighlightedText = () => {
     if (regex.source === "") {
@@ -20,11 +25,10 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
 
     text.replace(regex, (match, ...args) => {
       const currentResults: JSX.Element[] = [];
-      console.log(match)
       const matchStart = args[args.length - 2];
       const matchEnd = matchStart + match.length;
 
-      result.push(<span className={`unmatched-${lastIndex}`}>{text.substring(lastIndex, matchStart)}</span>);
+      result.push(<span className={`unmatched-${lastIndex}`}>{replaceNewlines(text.substring(lastIndex, matchStart))}</span>);
 
       let currentIndex = matchStart;
 
@@ -36,7 +40,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
       const exec_match = copied_regex.exec(match)
 
       if (exec_match == null || exec_match!.indices === undefined) {
-        console.log("exec_match is null")
+        console.warn("exec_match is null")
         lastIndex = matchEnd;
         return match;
       }
@@ -58,7 +62,7 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
         depth += isStart ? 1 : -1;
         currentResults.push(
           <span className={`match-${currentIndex}`} style={{ backgroundColor: randomHexColor(depth - 1) }}>
-            {text.substring(index, colorChanges[i + 1][0])}
+            {replaceNewlines(text.substring(index, colorChanges[i + 1][0]))}
           </span>
         );
       }
@@ -72,19 +76,18 @@ const RegexHighlighter: React.FC<RegexHighlighterProps> = ({ text, regex }) => {
     });
 
     if (lastIndex < text.length) {
-      result.push(<span className={`remaining-${lastIndex}`}>{text.substring(lastIndex)}</span>);
+      result.push(<span className={`remaining-${lastIndex}`}>{replaceNewlines(text.substring(lastIndex))}</span>);
     }
 
     return result;
   };
 
   const highlightedText = getHighlightedText()
-  console.log("highlightedText", highlightedText)
 
   return (
-    <div className="font-mono p-2 bg-gray-900 border border-gray-700 rounded p-2 font-mono w-full">
+    <pre className="font-mono p-2 bg-gray-900 border border-gray-700 rounded p-2 font-mono w-full whitespace-pre-wrap">
       {highlightedText}
-    </div>
+    </pre>
   );
 };
 

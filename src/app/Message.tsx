@@ -63,7 +63,7 @@ const Message = ({
         {renderRole(role)}
       </button>
       <textarea
-        className="w-full bg-gray-800 border-gray-700 p-2 border rounded"
+        className="w-full bg-gray-800 border-gray-700 p-2 border rounded h-auto resize-none h-48"
         placeholder="Message goes here..."
         onChange={(e) => onChange(e.target.value)}
         value={content}

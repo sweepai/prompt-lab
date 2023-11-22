@@ -30,13 +30,41 @@ const Toast = ({ content }: { content: string }) => {
   )
 }
 
+const default_user_message = `The following is code written by a user for you to unit test.
+
+<code>
+\`\`\`
+def check_tictactoe_win(board: list[list[str]], player: str = "X") -> bool:
+    for row in board:
+        if all(s == player for s in row):
+            return True
+    for col in range(3):
+        if all(board[row][col] == player for row in range(3)):
+            return True
+    if all(board[i][i] == player for i in range(3)) or all(board[i][2-i] == player for i in range(3)):
+        return True
+    return False
+\`\`\`
+</code>
+
+Write me a unit test for this code in the following format:
+
+<unit_test>
+\`\`\`
+The unit test using the unittest module.
+\`\`\`
+</unit_test>`
+
+const defaultDisplayContent = `
+`
+
 const Main = () => {
   const [messages, setMessages] = useState<MessageType[]>(() => {
     // Load messages from local storage or default to initial array
     const savedMessages = typeof window !== "undefined" ? localStorage.getItem('messages') : null;
     return savedMessages ? JSON.parse(savedMessages) : [
-      { content: "You are a helpful assistant.", role: "system", id: 0 },
-      { content: "Say this is a test.", role: "user", id: 1 },
+      { content: "You are an expert Python QA engineer.", role: "system", id: 0 },
+      { content: default_user_message, role: "user", id: 1 },
     ];
   });
   console.log(messages)
@@ -46,7 +74,7 @@ const Main = () => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('messages', JSON.stringify(messages));
     }
-  }, []);
+  }, [messages]);
 
   return (
     <RecoilRoot>

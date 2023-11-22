@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import RegexHighlighter from "./RegexHighlighter"
 
 const RegexVisualizer = ({text}: {text: string}) => {
-    const defaultRegex = "text (to) be high(li(g)ht)ed"
+    const defaultRegex = "<unit_test>(.*)</unit_test>"
     const [regex, setRegex] = useState<RegExp>(new RegExp(defaultRegex, "dgs"))
     const ref = useRef<HTMLInputElement>(null)
     const onChange = () => {
