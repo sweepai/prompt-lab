@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useRef } from "react";
+
 type RoleType = "system" | "user" | "assistant";
 
 const renderRole = (role: RoleType) => {
@@ -24,27 +26,33 @@ const getNextRole = (role: RoleType) => {
   }
 };
 
+const AutoScaledTextarea = ({ ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => {
+  const ref = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    console.log("ref.current", ref.current)
+    if (ref.current) {
+      ref.current.style.height = 'auto';
+      ref.current.style.height = ref.current.scrollHeight + 'px';
+    }
+  }, [])
+  return (
+    <textarea
+      onInput={(e: any) => {
+        e.target.style.height = 'auto';
+        e.target.style.height = e.target.scrollHeight + 'px';
+      }}
+      {...props}
+      ref={ref}
+    />
+  )
+}
+
+
 interface MessageType {
   content: string;
   role: RoleType;
   id: number;
 }
-
-// const messagesState = atom<MessageType[]>({
-//   key: 'todoListState',
-//   default: [
-//     {
-//       content: "You are a helpful assistant.",
-//       role: "system",
-//       id: 0
-//     },
-//     {
-//       content: "Say this is a test.",
-//       role: "user",
-//       id: 1
-//     },
-//   ],
-// });
 
 const Message = ({
   content,
@@ -70,11 +78,12 @@ const Message = ({
           Delete
         </button>
       </div>
-      <textarea
-        className="w-full bg-gray-800 border-gray-700 p-2 border rounded h-auto h-max-60 text-xs"
+      <AutoScaledTextarea
+        className="w-full bg-gray-800 border-gray-700 p-2 border rounded h-auto max-h-120 text-xs"
         placeholder="Message goes here..."
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e: any) => onChange(e.target.value)}
         value={content}
+        contentEditable
       />
     </div>
   );
