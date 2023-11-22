@@ -99,7 +99,13 @@ const Main = () => {
   const [displayContent, setDisplayContent] = useState<string>(defaultDisplayContent);
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
-  const runButtonDisabled = apiKey === "" || messages.length === 0 || isRunning;
+  // var runButtonDisabled = apiKey === "" || messages.length === 0 || isRunning;
+  const [runButtonDisabled, setRunButtonDisabled] = useState<boolean>(apiKey === "" || messages.length === 0 || isRunning);
+
+  useEffect(() => {
+    // runButtonDisabled = apiKey === "" || messages.length === 0 || isRunning;
+    setRunButtonDisabled(apiKey === "" || messages.length === 0 || isRunning);
+  }), [apiKey, messages, isRunning];
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -192,15 +198,7 @@ const Main = () => {
             </button>
           </div>
           <div className="w-2/3 p-4">
-            <RegexVisualizer text={displayContent} runButton={
-                <button
-                    className={`font-bold text-xl text-white p-2 rounded w-full text-center w-32 ${!runButtonDisabled ? "bg-blue-700 hover:bg-blue-800" : "bg-gray-700"}`}
-                    onClick={runLLM}
-                    disabled={runButtonDisabled}
-                >
-                  Run
-                </button>
-            } />
+            <RegexVisualizer text={displayContent} runLLM={runLLM} runButtonDisabled={runButtonDisabled} />
             <input 
               type="password"
               className="text-xs bg-gray-800 border border-gray-700 rounded p-2 font-mono w-full mt-4"
